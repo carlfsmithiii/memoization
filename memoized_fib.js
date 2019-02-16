@@ -1,26 +1,35 @@
 function memoize(func) {
     const data = new Map();
-    return function(...args) {
-        const key = JSON.stringify(args);
+    return (key) => {
         if (!data.has(key)) {
-            data.set(key, func.apply(null, args));
+            data.set(key, func(key));
         } 
         return data.get(key);
     };
 };
 
-const fib = num => {
+const fib = memoize(num => {
     process.stdout.write(".");
     if (num < 2) {
         return num;
     } else {
-        return fib(num - 1) + fib(num - 1);
+        return fib(num - 1) + fib(num - 2);
+    }
+});
+
+const rawFib = num => {
+    process.stdout.write('.');
+    if (num < 2) {
+        return num;
+    } else {
+        return rawFib(num - 1) + rawFib(num - 2);
     }
 };
 
-const memoizedFib = memoize(fib);
+console.log("Memoized:")
+console.log(fib(26));
+console.log(fib(26));
 
-console.log("memoizedFib of 6");
-console.log(memoizedFib(6));
-console.log("again");
-console.log(memoizedFib(6));
+console.log("\nWithout memoization:");
+console.log(rawFib(11));
+console.log(rawFib(11));
