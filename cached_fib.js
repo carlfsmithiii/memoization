@@ -1,17 +1,17 @@
-const cached_fib = num => {
+const fibonator = () => {
     const cache = new Map();
-    const fib = innerNum => {
-        if (innerNum < 2) {
-            return innerNum;
+    const fib = num => {
+        if (num < 2) {
+            return num;
         } else {
-            if (!cache.has(innerNum)) {
+            if (!cache.has(num)) {
                 process.stdout.write('.')
-                cache.set(innerNum, fib(innerNum - 1) + fib(innerNum - 2));
+                cache.set(num, fib(num - 1) + fib(num - 2));
             }
-            return cache.get(innerNum);
+            return cache.get(num);
         }
     };
-    return fib(num);
+    return fib;
 }
 
 const fib = num => {
@@ -28,4 +28,5 @@ console.log('regular fib(8): ');
 console.log(fib(8));
 
 console.log('\ncached_fib(8): ');
-console.log(cached_fib(8));
+const madfib = fibonator();
+console.log(madfib(8));
